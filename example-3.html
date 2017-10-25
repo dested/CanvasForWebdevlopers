@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Canvas</title>
+</head>
+<body style="padding:0;margin:0; height:100vh; overflow: hidden;">
+<canvas id="canvas"></canvas>
+<script>
+    const solidImage = new Image();
+    solidImage.src = 'http://runrunjump.com/assets/game/solid.png';
+    const brickImage = new Image();
+    brickImage.src = 'http://runrunjump.com/assets/game/breakable.png';
+
+
+    document.addEventListener("DOMContentLoaded", () => {
+            let tileSize = 16;
+            let scale = 4;
+
+            const canvas = document.getElementById('canvas');
+            canvas.width = document.body.clientWidth;
+            canvas.height = document.body.clientHeight;
+            const context = canvas.getContext('2d');
+
+
+            canvas.onmousemove = (e) => {
+                debugger;
+                let clickX = e.x / scale;
+                let clickY = e.y / scale;
+                for (let x = 0; x < images.length; x++) {
+                    for (let y = 0; y < images[x].length; y++) {
+                        if (
+                            clickX > x * tileSize &&
+                            clickX <= x * tileSize + tileSize &&
+                            clickY > y * tileSize &&
+                            clickY <= y * tileSize + tileSize
+                        ) {
+                            images[x][y] = brickImage;
+                        }
+                    }
+                }
+            };
+
+
+            let images = [];
+            for (let x = 0; x < 100; x++) {
+                images[x] = [];
+                for (let y = 0; y < 100; y++) {
+                    images[x][y] = solidImage;
+                }
+            }
+
+
+            function draw() {
+                context.save();
+                context.clearRect(0, 0, canvas.width, canvas.height);
+
+                context.scale(scale, scale);
+
+                for (let x = 0; x < images.length; x++) {
+                    for (let y = 0; y < images[x].length; y++) {
+                        context.drawImage(images[x][y], x * tileSize, y * tileSize);
+                    }
+                }
+
+                context.restore();
+
+                requestAnimationFrame(draw);
+            }
+
+            draw();
+
+
+        }
+    );
+</script>
+</body>
+</html>

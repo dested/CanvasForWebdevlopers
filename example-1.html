@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Canvas</title>
+</head>
+<body>
+<canvas id="canvas" width="400" height="400" style="width:800px;height:800px;"></canvas>
+<script>
+    const data = [10, 30, 24, 19, 46, 18];
+
+
+    const canvas = document.getElementById('canvas');
+    const context = canvas.getContext('2d');
+
+    const canvasWidth = canvas.width;
+    const pointRadius = 10;
+    const pointSpacing = canvasWidth / data.length;
+
+    //    context.save();
+
+    context.beginPath();
+    for (let x = 0; x < data.length; x++) {
+        let datum = data[x];
+        if (x === 0) {
+            context.moveTo(0, datum);
+        } else {
+            context.lineTo(x * pointSpacing, datum);
+        }
+    }
+    context.lineWidth = 5;
+    context.strokeStyle = 'red';
+    context.stroke();
+
+    //    context.restore();
+
+
+    for (let x = 0; x < data.length; x++) {
+        let datum = data[x];
+        context.beginPath();
+        context.arc(x * pointSpacing, datum, pointRadius, 0, degreesToRadians(360), true);
+        context.fillStyle = 'blue';
+        context.lineWidth = 2;
+        context.strokeStyle = 'yellow';
+
+        context.fill();
+        context.stroke();
+    }
+
+
+    function degreesToRadians(rad) {
+        return rad * (Math.PI / 180);
+    }
+
+</script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Canvas</title>
+</head>
+<body>
+<canvas id="canvas" width="400" height="400" style="width:800px;height:800px;"></canvas>
+<script>
+
+
+    const canvas = document.getElementById('canvas');
+    const context = canvas.getContext('2d');
+
+    let radiusMultiplier = 0;
+
+
+    function draw() {
+
+        if (radiusMultiplier < 100) {
+            radiusMultiplier += 1;
+        }
+
+        context.save();
+
+
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        context.translate(100, 100);
+
+
+        let boxSize = 100;
+
+
+        context.translate(boxSize / 2, boxSize / 2)
+        context.rotate(degreesToRadians(3.6 * radiusMultiplier));
+        context.translate(-boxSize / 2, -boxSize / 2)
+
+
+        const grd = context.createRadialGradient(boxSize / 2, boxSize / 2, 0.000, boxSize / 2, boxSize / 2, boxSize / 2);
+
+        grd.addColorStop(0.000, 'red');
+        grd.addColorStop(1.000, 'green');
+
+        context.fillStyle = grd;
+        context.fillRect(0, 0, boxSize, boxSize);
+        context.restore();
+
+
+        requestAnimationFrame(draw);
+
+    }
+
+    requestAnimationFrame(draw);
+
+
+    function degreesToRadians(rad) {
+        return rad * (Math.PI / 180);
+    }
+
+    //http://victorblog.com/html5-canvas-gradient-creator/
+</script>
+</body>
+</html>
